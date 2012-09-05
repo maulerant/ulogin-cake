@@ -20,7 +20,7 @@ class UloginComponent extends Object {
 
     public function getAuthData($token) {
         if ($this->agregator === 'loginza') {
-            $authData = json_decode(file_get_contents($this->loginzaAuthUrl.$token.'&id='.$this->loginzaIds[$_SERVER['SERVER_NAME']].'&sig='.md5($token.$this->loginzaSigs[$_SERVER['SERVER_NAME']]),true);
+            $authData = json_decode(file_get_contents($this->loginzaAuthUrl.$token.'&id='.$this->loginzaIds[$_SERVER['SERVER_NAME']].'&sig='.md5($token.$this->loginzaSigs[$_SERVER['SERVER_NAME']])) ,true);
         } else if ($this->agregator === 'ulogin') {
             $authData = json_decode(file_get_contents($this->uloginAuthUrl.$this->token.'&host='.$_SERVER['HTTP_HOST']),true);
             $authData['provider'] = $authData['network'] ;
