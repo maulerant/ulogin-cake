@@ -10,20 +10,26 @@ class UloginHelper extends Helper
         'providers'     =>  'vkontakte,odnoklassniki,google,facebook',
 //        'hidden'        =>  'twitter,mailru,google,yandex,livejournal,openid,lastfm,linkedin,liveid,soundcloud,steam',
         'hidden'        =>  '',
-        'redirect'      =>  'http://www.vir-city.com/users/loginza_auth',
+        'redirect'      =>  '',
     );
 
-    public function widget()
+    public function widget($provider_images = array(), $redirect = null)
     {
         $output = '' ;
         //подключаем JS скрипт
+        $redirect = $redirect?$redirect:$this->uloginParams['redirect'] ;
+        $display = empty($provider_images)?$this->uloginParams['display']:'buttons' ;
         $output .= $this->Html->script('http://ulogin.ru/js/ulogin.js');
-        $output .= '<div id="uLogin" x-ulogin-params="display='.$this->uloginParams['display'].
+        $output .= '<div id="uLogin" x-ulogin-params="display='.$display.
                                                         ';fields='.$this->uloginParams['fields'].
                                                         ';providers='.$this->uloginParams['providers'].
                                                         ';hidden='.$this->uloginParams['hidden'].
-                                                        ';redirect_uri='.urlencode($this->uloginParams['redirect']).'">
-                    </div>' ;
+                                                        ';redirect_uri='.urlencode($redirect).'">';
+        foreach($provider_images as $provider=>$image) {
+            $output .= '<img src="'.$image.'" x-ulogin-button = "'.$provider.'"/>' ;
+        }
+
+        $output .= '</div>' ;
         return $output ;
     }
 
